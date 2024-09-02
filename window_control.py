@@ -1,4 +1,6 @@
 import os.path
+import subprocess
+import threading
 import time
 from ahk import AHK
 
@@ -10,13 +12,13 @@ def list_of_windows():
 
 
 class Window:
-    def __init__(self, window_title, mine_button, horizontal_blocks=5, vertical_blocks=1):
-        self.mine_button = mine_button
+    def __init__(self, window_title, mine_key, horizontal_blocks=5, vertical_blocks=1):
+        self.mine_key = mine_key
         self.horizontal_blocks = (horizontal_blocks - 1) / 3
         self.vertical_blocks = (vertical_blocks - 1) / 3
         self.active = True
-        ahk = AHK(executable_path=os.path.join('assets', 'AutoHotkey.exe'))
-        self.win = ahk.find_window(title=window_title)
+        self.ahk = AHK(executable_path=os.path.join('assets', 'AutoHotkey.exe'))
+        self.win = self.ahk.find_window(title=window_title)
         self.visible = True
         self.thread = None
 
@@ -29,7 +31,7 @@ class Window:
             self.visible = True
 
     def mine(self):
-        self.win.send('{' + self.mine_button + ' down}')
+        self.win.send('{' + self.mine_key + ' down}')
         while self.active:
             self.win.send('{d down}')
             time.sleep(self.horizontal_blocks)
@@ -43,6 +45,4 @@ class Window:
             self.win.send('{w down}')
             time.sleep(self.vertical_blocks)
             self.win.send('{w up}')
-        self.win.send('{' + self.mine_button + ' up}')
-
-
+        self.win.send('{' + self.mine_key + ' up}')
