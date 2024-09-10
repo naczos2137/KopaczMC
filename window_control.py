@@ -1,6 +1,4 @@
 import os.path
-import subprocess
-import threading
 import time
 from ahk import AHK
 
@@ -31,6 +29,7 @@ class Window:
             self.visible = True
 
     def mine(self):
+        print('{' + self.mine_key + ' down}')
         self.win.send('{' + self.mine_key + ' down}')
         while self.active:
             self.win.send('{d down}')

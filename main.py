@@ -13,7 +13,7 @@ executor = concurrent.futures.ThreadPoolExecutor()
 
 def create_new_bot(title):
     global bots, horizontal_blocks, vertical_blocks, bots_table
-    bot = window_control.Window(title, mine_key, horizontal_blocks=int(horizontal_blocks.get()), vertical_blocks=int(vertical_blocks.get()))
+    bot = window_control.Window(title, mine_key.get(), horizontal_blocks=int(horizontal_blocks.get()), vertical_blocks=int(vertical_blocks.get()))
     bots[title] = bot
     bot.thread = executor.submit(bot.mine)
 
